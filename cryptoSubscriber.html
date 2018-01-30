@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crypto Subscriber</title>
+		<!-- <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.18.0.min.js"></script> -->
+		<script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+		<link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css"/>
+</head>
+<body>
+
+	<div id="bitcoinChart"></div>
+	<div id="etherChart"></div>
+	<div id="liteCoinChart"></div>
+
+	<script type="text/javascript">
+
+		// You will only be subscribing to a channel, so no need for a publish key
+		var pubnub = new PubNub({
+		    subscribeKey: 'YOUR_KEY_HERE' // replace with your own sub-key
+		  });
+
+		// EON Charts configuration
+		var pointLimit = 15;
+		var topPadding = 100;
+		var bottomPadding = 100;
+		var eonData = {labels: true,type: 'line'};
+		var eonAxis = {y: {padding: {top:topPadding, bottom:bottomPadding}},
+									 x: {type: 'timeseries',tick: {format: '%H:%M:%S'}}};
+
+		// Create the EON Chart for BitCoin and bind its div
+		eon.chart({
+		  channels: ['bitcoin-feed'],
+		  history: true,
+		  flow: true,
+		  limit: pointLimit,
+		  pubnub: pubnub,
+		  generate: {
+		    bindto: '#bitcoinChart',
+		    data: eonData,
+		    axis: eonAxis
+		  }
+		});
+
+		// Create the Ether Chart for BitCoin and bind its div
+		eon.chart({
+		  channels: ['ether-feed'],
+		  history: true,
+		  flow: true,
+		  limit: pointLimit,
+		  pubnub: pubnub,
+		  generate: {
+		    bindto: '#etherChart',
+		    data: eonData,
+		    axis: eonAxis
+			}
+		});
+
+ 		// Create the LiteCoin Chart for BitCoin and bind its div
+		eon.chart({
+		  channels: ['litecoin-feed'],
+		  history: true,
+		  flow: true,
+		  limit: pointLimit,
+		  pubnub: pubnub,
+		  generate: {
+		    bindto: '#liteCoinChart',
+		    data: eonData,
+		    axis: eonAxis
+		  }
+		});
+
+	</script>
+</body>
+</html>
